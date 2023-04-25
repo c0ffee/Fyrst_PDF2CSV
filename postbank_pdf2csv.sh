@@ -28,7 +28,7 @@ VERSION="v2023013100"		# die RegEx, die die Variable ZEILE_4 füllt, kannte das 
 #------------------------------------------------------------------------------#
 ### Eingabeüberprüfung
 
-PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+#PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 if [ -z "${1}" ] ; then
 	echo "${0} Kontoauszug_der_Postbank.pdf"
@@ -38,12 +38,12 @@ fi
 #------------------------------------------------------------------------------#
 ### Betriebssystem-Werkzeug-Name setzen
 
-if [ "$(uname -o)" = "FreeBSD" ] ; then
+if [ "$(uname -o)" = "FreeBSD" ] || [ "$(uname -o)" = "Darwin" ] ; then
         UMDREHEN="tail -r"
 elif [ "$(uname -o)" = "GNU/Linux" ] ; then
         UMDREHEN="tac"
 else
-        echo "Dieses Skript funktioniert nur mit FreeBSD und Linux."
+        echo "Dieses Skript funktioniert nur mit FreeBSD, Linux und MacOS."
         exit 1
 fi
 
