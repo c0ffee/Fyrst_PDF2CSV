@@ -77,11 +77,11 @@ do
 	pdftotext -fixed 8 -enc UTF-8 -eol unix "${PDFDATEI}" ${NEUERNAME}.txt
 
 	### Kontoauszug: Postbank Giro plus vom
-	cat ${NEUERNAME}.txt | sed 's/^[ ][ ]*Kontoauszug: Postbank Giro plus vom /ABCDEFG_entfernen_GFEDCBA¶&/' | tr -s '¶' '\n' | sed 's/^­ /-/g;/Unser Tipp für Sie:/,//d;/Wichtige Hinweise/,//d' > ${NEUERNAME}_.txt
+	cat ${NEUERNAME}.txt | sed 's/^[ ][ ]*Kontoauszug: .* vom /ABCDEFG_entfernen_GFEDCBA¶&/' | tr -s '¶' '\n' | sed 's/^­ /-/g;/Unser Tipp für Sie:/,//d;/Wichtige Hinweise/,//d' > ${NEUERNAME}_.txt
 	rm -f ${NEUERNAME}.txt
 
 	### Kontoauszug: Postbank Giro plus vom 21.07.2017 bis 28.07.2017
-	VON_ZEILE="$(cat ${NEUERNAME}_.txt | grep -Ea '        Kontoauszug: Postbank .* vom [0-3][0-9].[0-1][0-9].20[0-9][0-9] bis [0-3][0-9].[0-1][0-9].20[0-9][0-9]')"
+	VON_ZEILE="$(cat ${NEUERNAME}_.txt | grep -Ea '        Kontoauszug: .* vom [0-3][0-9].[0-1][0-9].20[0-9][0-9] bis [0-3][0-9].[0-1][0-9].20[0-9][0-9]')"
 	MONAT_JAHR_VON="$(echo "${VON_ZEILE}" | sed 's/.* vom //;s/ bis .*//' | awk -F'.' '{print $3"-"$2"-"$1}')"
 	MONAT_JAHR_BIS="$(echo "${VON_ZEILE}" | sed 's/.* bis //' | awk -F'.' '{print $3"-"$2"-"$1}')"
 	VON_DATUM="$(echo "${VON_ZEILE}" | sed 's/.* vom //;s/ bis .*//' | awk -F'.' '{print $2$1}')"
