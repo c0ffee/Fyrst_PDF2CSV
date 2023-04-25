@@ -144,7 +144,7 @@ do
 	### CSV-Datei initialisieren
 
 	# Konto-Informationen
-	echo "${VON_ZEILE}" | sed 's/^[ ][ ]*//' > ${NEUERNAME}.csv
+	#echo "${VON_ZEILE}" | sed 's/^[ ][ ]*//' > ${NEUERNAME}.csv
 
 	#----------------------------------------------------------------------#
 	### Tabellenkopf
@@ -168,7 +168,7 @@ do
 	cat ${NEUERNAME}.txt | sed 's/[+-] [0-9][0-9]*[0-9,.]*$/¶&¶/;s/^[ ][ ]*[0-3][0-9][.][0-1][0-9][.][/][0-3][0-9][.][0-1][0-9][.]/☻&/' | tr -s '\n' ';' | sed 's/  */ /g;s/^;//;s/;$//' | tr -s '☻' '\n' | grep -Fv 'Rechnungsabschluss - siehe Hinweis' | grep -Ev '^[ ]*$' | while read ZEILE
 	do
 		#echo "-0----------------------------------------------"
-       		BETRAG="$(echo "${ZEILE}" | awk -F'¶' '{print $2}' | sed 's/^[ ][ ]*//')"
+       		BETRAG="$(echo "${ZEILE}" | awk -F'¶' '{print $2}' | sed 's/^[ ][ ]*//' | sed 's/ //')"
 		#echo "-1----------------------------------------------"
        		BUCHUNG="$(echo "${ZEILE}" | awk -F';' '{gsub("[ ]+","");print $1}' | awk -F'/' '{print $1}' | awk -F'.' '{print $2"-"$1}' | sed 's/^[ ][ ]*//')"
 		#echo "-2-------------------------------------"
